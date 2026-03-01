@@ -7,7 +7,7 @@ const ProgressBar = document.querySelector('.bg-emerald-500.h-2.rounded-full');
 const ItemList = document.getElementById('itemList');
 const ResetButton = document.getElementById('reset-btn');
 
-// Target the specific 1,240 number span
+
 const TotalDisplay = document.querySelector('.text-3xl.font-black.text-emerald-500');
 
 // STATE
