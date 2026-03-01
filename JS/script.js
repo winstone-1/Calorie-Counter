@@ -3,44 +3,86 @@ const form = document.querySelector('form');
 const FoodInput = document.getElementById('Food-Item');
 const FoodType = document.getElementById('Food-Type');
 const CaloriesInput = document.getElementById('Calories-Input');
-const SaveButton = document.querySelector('button[type="submit"]');
 const ProgressBar = document.querySelector('.bg-emerald-500.h-2.rounded-full');
 const ItemList = document.getElementById('itemList');
+const ResetButton = document.getElementById('reset-btn');
 
+// Target the specific 1,240 number span
+const TotalDisplay = document.querySelector('.text-3xl.font-black.text-emerald-500');
 
-let totalCalories = 0;
+// STATE
 const DAILY_GOAL = 3000;
-// EVENT LISTENER
-form.addEventListener('submit', function(e) {
+let history = JSON.parse(localStorage.getItem('calorieHistory')) || [];
+
+// 
+updateUI();
+
+// EVENT LISTENERS
+form.addEventListener('submit', (e) => {
     e.preventDefault();
-    e();
+    
+    const food = FoodInput.value.trim();
+    const type = FoodType.value;
+    const calories = parseInt(CaloriesInput.value);
+
+    
+    if (!food || !type || isNaN(calories)) {
+        alert("Please fill in all fields correctly!");
+        return;
+    }
+
+    // Add to history
+    const entry = { food, type, calories };
+    history.push(entry);
+    
+    // Save 
+    localStorage.setItem('calorieHistory', JSON.stringify(history));
+    updateUI();
+    form.reset();
 });
 
-function e() {
-    // Get input values
-    const food = FoodInput.value.trim();
-    const foodType = FoodType.value;
-    const calories = parseInt(CaloriesInput.value.trim());
-    // Check inputs
-    if (!food || !type || isNaN(calories)) {
-        alert("Please fill out all fields with valid information.");
-        return;
-    } 
-}
-    
-        // Update the total count
-        totalCalories += CaloriesInput;
-        TotalDisplay.textContent = totalCalories.toLocaleString();
+ResetButton.addEventListener('click', () => {
+    if(confirm("Are you sure you want to clear all data?")) {
+        history = [];
+        localStorage.removeItem('calorieHistory');
+        updateUI();
+    }
+});
 
-        // Step B: Create and add the new list item
+function updateUI() {
+    //  Clear current list
+    ItemList.innerHTML = '';
+    let total = 0;
+
+    //  List Items
+    history.forEach((item, index) => {
+        total += item.calories;
         const li = document.createElement('li');
-        li.className = "flex justify-between p-2 border-b dark:border-gray-700 text-sm";
-        li.innerHTML = `<span>${food} (${type})</span> <span class="font-bold">${calories} kcal</span>`;
+        li.className = "flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border-l-4 border-emerald-500 mt-3";
+        li.innerHTML = `
+            <div>
+                <p class="font-bold text-gray-800 dark:text-white">${item.food}</p>
+                <p class="text-xs text-gray-500 uppercase">${item.type}</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="font-black text-emerald-500">${item.calories} kcal</span>
+                <button onclick="deleteEntry(${index})" class="text-red-400 hover:text-red-600">✕</button>
+            </div>
+        `;
         ItemList.appendChild(li);
+    });
 
-        //  Calculate daily
-        const percent = Math.min((totalCalories / 3000) * 100, 100);
-        ProgressBar.style.width = `${percent}%`;
+    // 3. Update Total Number
+    TotalDisplay.textContent = total.toLocaleString();
 
-        // Step D: Reset the form 
-        form.reset();
+    //  Update Progress Bar
+    const percentage = Math.min((total / DAILY_GOAL) * 100, 100);
+    ProgressBar.style.width = `${percentage}%`;
+}
+
+// Global Delete Function
+window.deleteEntry = (index) => {
+    history.splice(index, 1);
+    localStorage.setItem('calorieHistory', JSON.stringify(history));
+    updateUI();
+};

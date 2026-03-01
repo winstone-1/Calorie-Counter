@@ -35,16 +35,12 @@
                     </select>
                 </div>
                 <!-- Calories Input -->
-                <div>
-                    <label for="calories" class="block text-xs font-black uppercase text-gray-500 dark:text-gray-400 mb-1">Calories (kcal)</label>
-                    <input type="number" name="calories" placeholder="400" 
-                        class="block w-full border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all">
-                </div>
+                <input type="number" name="calories" id="Calories-Input" placeholder="400" 
+class="block w-full border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all">
             
                 <button type="submit" class="w-full mt-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg shadow-lg shadow-emerald-200 dark:shadow-none transition-transform active:scale-95">
                     Save Entry
                 </button>
-                <ul id="itemList"></ul>
             </form>
         </div>
 
@@ -65,9 +61,11 @@
         </div>
     </div>
     <div class="container mx-auto max-w-xs sm:max-w-md md:max-w-lg mt-6 px-6 sm:px-10">
-    <button id="reset-button" class="w-full mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-lg shadow-lg shadow-red-200 dark:shadow-none transition-transform active:scale-95">
+    <button id="reset-btn" class="w-full mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-lg shadow-lg shadow-red-200 dark:shadow-none transition-transform active:scale-95">
         Reset Data
     </button>
+    <ul id="itemList" class="space-y-2">
+    </ul>
     </div>
 </div>
 
