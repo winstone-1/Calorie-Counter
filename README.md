@@ -48,6 +48,8 @@ cd Calorie-Counter
 **email:** winstonemuna404@gmail.com
 **Phone number:** 0795278996
 
+## Live Link
+[see my website]([text](https://winstone-1.github.io/Calorie-Counter/))
 ## Known Bugs
 There are no bugs
 ## License
